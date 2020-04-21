@@ -1,0 +1,40 @@
+#   Before running docker-compose commands...
+
+#   export APP_ENV=development
+#   export DOCKER_ACCT=thomaslamendola
+
+#   For the standard Windows DOS command shell use `set` instead of `export` for environment variables.
+
+#   For Powershell:
+#   $env:APP_ENV = "development"
+#   $env:DOCKER_ACCT = "thomaslamendola"
+
+version: '2'
+services:
+  mvc:
+    container_name: mvc
+    image: ${DOCKER_ACCT}/sample-app-mvc
+    build:
+      context: ./SampleApp.MVC/
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+    env_file:
+      - ./.docker/env/mvc.${APP_ENV}.env
+    networks:
+      - sampleapp-network
+  api:
+    container_name: api
+    image: ${DOCKER_ACCT}/sample-app-api
+    build:
+      context: ./SampleApp.API/
+    ports:
+      - "8090:80"
+    env_file:
+      - ./.docker/env/api.${APP_ENV}.env
+    networks:
+      - sampleapp-network
+networks:
+  sampleapp-network:
+    driver: bridge
