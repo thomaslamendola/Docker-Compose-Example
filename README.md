@@ -1,4 +1,4 @@
-# Docker-Compose-Example
+# Docker Compose Example
 
 A solution with an ASP.NET Core application calling an ASP.NET Core WebAPI and rendering the response on the page.
 A sample solution to show how Docker Compose works.
