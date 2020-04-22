@@ -24,7 +24,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "json-server", "json-server", "{2CE0863E-B59F-498B-B549-5BC6FF1537E2}"
 	ProjectSection(SolutionItems) = preProject
 		.docker\json-server\db.json = .docker\json-server\db.json
-		.docker\json-server\json-server.dockerfile = .docker\json-server\json-server.dockerfile
+		.docker\json-server\Dockerfile = .docker\json-server\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mongo-seed", "mongo-seed", "{DE961D88-0769-4F88-97C9-F4BEB3B820C9}"
+	ProjectSection(SolutionItems) = preProject
+		.docker\mongo-seed\Dockerfile = .docker\mongo-seed\Dockerfile
+		.docker\mongo-seed\init.json = .docker\mongo-seed\init.json
 	EndProjectSection
 EndProject
 Global
@@ -48,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{869DC26E-7FA7-4869-A81A-67A07DC1DC7F} = {0234625D-11ED-4185-A864-E0488D33E579}
 		{2CE0863E-B59F-498B-B549-5BC6FF1537E2} = {0234625D-11ED-4185-A864-E0488D33E579}
+		{DE961D88-0769-4F88-97C9-F4BEB3B820C9} = {0234625D-11ED-4185-A864-E0488D33E579}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3609ADBF-3B4F-4650-BD32-93B996A64017}

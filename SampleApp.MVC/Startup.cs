@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using SampleApp.MVC.Models;
+using SampleApp.MVC.Repositories;
 using SampleApp.MVC.Services;
 
 namespace SampleApp.MVC
@@ -24,7 +27,13 @@ namespace SampleApp.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDbSettings"));
+            services.AddSingleton<IMongoDbSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+
             services.AddControllersWithViews();
+
+            services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+
             services.AddHttpClient<IWeatherService, WeatherService>(client =>
             {
                 client.BaseAddress = new Uri(Configuration["BaseUrl"]);
