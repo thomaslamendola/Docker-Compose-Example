@@ -1,0 +1,34 @@
+{
+  "weatherforecast": [
+    {
+      "date": "2020-04-23T07:43:55.8004854+02:00",
+      "temperatureC": 23,
+      "temperatureF": 73,
+      "summary": "Hot"
+    },
+    {
+      "date": "2020-04-24T07:43:55.8023485+02:00",
+      "temperatureC": 8,
+      "temperatureF": 46,
+      "summary": "Hot"
+    },
+    {
+      "date": "2020-04-25T07:43:55.8023526+02:00",
+      "temperatureC": 32,
+      "temperatureF": 89,
+      "summary": "Warm"
+    },
+    {
+      "date": "2020-04-26T07:43:55.8023529+02:00",
+      "temperatureC": -16,
+      "temperatureF": 4,
+      "summary": "Mild"
+    },
+    {
+      "date": "2020-04-27T07:43:55.8023531+02:00",
+      "temperatureC": 4,
+      "temperatureF": 39,
+      "summary": "Chilly"
+    }
+  ]
+}

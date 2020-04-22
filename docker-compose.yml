@@ -35,6 +35,16 @@ services:
       - ./.docker/env/api.${APP_ENV}.env
     networks:
       - sampleapp-network
+  mock-api:
+    container_name: mock-api
+    image: node:11
+    build:
+      context: ./.docker/json-server/
+      dockerfile: json-server.dockerfile
+    ports:
+      - "8030:80"
+    networks:
+      - sampleapp-network
 networks:
   sampleapp-network:
     driver: bridge
