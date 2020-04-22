@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using SampleApp.MVC.Attributes;
@@ -15,11 +16,14 @@ namespace SampleApp.MVC.Repositories
     where TDocument : IDocument
     {
         private readonly IMongoCollection<TDocument> _collection;
+        private readonly bool _isMocking;
 
         public MongoRepository(IMongoDbSettings settings)
         {
             var database = new MongoClient(settings.ConnectionString).GetDatabase(settings.DatabaseName);
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
+
+            _isMocking = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Mock", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private protected string GetCollectionName(Type documentType)
@@ -46,6 +50,13 @@ namespace SampleApp.MVC.Repositories
             Expression<Func<TDocument, bool>> filterExpression,
             Expression<Func<TDocument, TProjected>> projectionExpression)
         {
+            if (_isMocking)
+            {
+                var mockBase = Builder<TDocument>.CreateListOfSize(5).Build().AsQueryable();
+                var mockResult = mockBase.Where(filterExpression).Select(projectionExpression).AsEnumerable();
+                return mockResult;
+            }
+
             return _collection.Find(filterExpression).Project(projectionExpression).ToEnumerable();
         }
 
