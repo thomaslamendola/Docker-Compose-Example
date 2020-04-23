@@ -32,7 +32,10 @@ namespace SampleApp.MVC
 
             services.AddControllersWithViews();
 
-            services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Mock", StringComparison.InvariantCultureIgnoreCase))
+                services.AddScoped(typeof(IMongoRepository<>), typeof(MockRepository<>));
+            else
+                services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
 
             services.AddHttpClient<IWeatherService, WeatherService>(client =>
             {

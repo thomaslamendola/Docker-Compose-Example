@@ -16,14 +16,11 @@ namespace SampleApp.MVC.Repositories
     where TDocument : IDocument
     {
         private readonly IMongoCollection<TDocument> _collection;
-        private readonly bool _isMocking;
 
         public MongoRepository(IMongoDbSettings settings)
         {
             var database = new MongoClient(settings.ConnectionString).GetDatabase(settings.DatabaseName);
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
-
-            _isMocking = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Mock", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private protected string GetCollectionName(Type documentType)
@@ -50,13 +47,6 @@ namespace SampleApp.MVC.Repositories
             Expression<Func<TDocument, bool>> filterExpression,
             Expression<Func<TDocument, TProjected>> projectionExpression)
         {
-            if (_isMocking)
-            {
-                var mockBase = Builder<TDocument>.CreateListOfSize(5).Build().AsQueryable();
-                var mockResult = mockBase.Where(filterExpression).Select(projectionExpression).AsEnumerable();
-                return mockResult;
-            }
-
             return _collection.Find(filterExpression).Project(projectionExpression).ToEnumerable();
         }
 
@@ -157,49 +147,5 @@ namespace SampleApp.MVC.Repositories
         {
             return Task.Run(() => _collection.DeleteManyAsync(filterExpression));
         }
-    }
-
-    public interface IMongoRepository<TDocument> where TDocument : IDocument
-    {
-        IQueryable<TDocument> AsQueryable();
-
-        IEnumerable<TDocument> FilterBy(
-            Expression<Func<TDocument, bool>> filterExpression);
-
-        IEnumerable<TProjected> FilterBy<TProjected>(
-            Expression<Func<TDocument, bool>> filterExpression,
-            Expression<Func<TDocument, TProjected>> projectionExpression);
-
-        TDocument FindOne(Expression<Func<TDocument, bool>> filterExpression);
-
-        Task<TDocument> FindOneAsync(Expression<Func<TDocument, bool>> filterExpression);
-
-        TDocument FindById(string id);
-
-        Task<TDocument> FindByIdAsync(string id);
-
-        void InsertOne(TDocument document);
-
-        Task InsertOneAsync(TDocument document);
-
-        void InsertMany(ICollection<TDocument> documents);
-
-        Task InsertManyAsync(ICollection<TDocument> documents);
-
-        void ReplaceOne(TDocument document);
-
-        Task ReplaceOneAsync(TDocument document);
-
-        void DeleteOne(Expression<Func<TDocument, bool>> filterExpression);
-
-        Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression);
-
-        void DeleteById(string id);
-
-        Task DeleteByIdAsync(string id);
-
-        void DeleteMany(Expression<Func<TDocument, bool>> filterExpression);
-
-        Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);
     }
 }
