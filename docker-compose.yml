@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   mongo:
     container_name: mongo
@@ -40,15 +40,27 @@ services:
       - ./.docker/env/api.${APP_ENV}.env
     networks:
       - sampleapp-network
-  mock-api:
-    container_name: mock-api
-    image: node:11
+  hoverfly:
+    container_name: hoverfly
     build:
-      context: ./.docker/json-server/
+      context: ./.docker/hoverfly
+    # command: -capture # this needs to be commented out when running in simulation...
+    volumes:
+      - /c/users/thoma/source/repos/SampleApp/.docker/hoverfly/simulations:/data
     ports:
-      - "8030:80"
+      - "8888:8888"
+      - "8500:8500"
     networks:
       - sampleapp-network
+  # mock-api:
+  #   container_name: mock-api
+  #   image: node:11
+  #   build:
+  #     context: ./.docker/json-server/
+  #   ports:
+  #     - "8030:80"
+  #   networks:
+  #     - sampleapp-network
 networks:
   sampleapp-network:
     driver: bridge
