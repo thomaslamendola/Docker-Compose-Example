@@ -2,9 +2,11 @@
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
 using SampleApp.MVC.Messaging.Consumers;
 using SampleApp.MVC.Messaging.Publishers;
 using System;
+using System.Threading;
 
 namespace SampleApp.MVC.Messaging
 {
@@ -40,7 +42,29 @@ namespace SampleApp.MVC.Messaging
                 NetworkRecoveryInterval = TimeSpan.FromSeconds(_baseSettings.RabbitMqConnection.NetworkRecoveryInterval)
             };
 
-            _conn = factory.CreateConnection();
+            var connected = false;
+            var retryCount = 3;
+
+            while(retryCount > 0 && !connected)
+            {
+                try
+                {
+                    _conn = factory.CreateConnection();
+                    connected = true;
+                }
+                catch (BrokerUnreachableException)
+                {
+                    Thread.Sleep(5000);
+                }
+                finally
+                {
+                    retryCount--;
+                }
+            }
+
+            if (!connected)
+                throw new Exception("FAILED TO CONNECT TO RABBIT!");
+            
             _channel = _conn.CreateModel();
 
             _channel.Initiate(_baseSettings);

@@ -5,14 +5,14 @@ services:
     image: mongo
     ports:
       - "27017:27017"
-    depends_on:
-      - mongo-seed
     networks:
       - sampleapp-network
   mongo-seed:
     container_name: mongo-seed
     build:
       context: ./.docker/mongo-seed
+    depends_on:
+      - mongo
     networks:
       - sampleapp-network
   mvc:
@@ -20,9 +20,11 @@ services:
     image: sample-app-mvc
     build:
       context: ./SampleApp.MVC/
+    restart: on-failure
     depends_on:
-      - api
+      - rabbit
       - mongo
+      - api
     ports:
       - "8080:80"
     env_file:
@@ -38,6 +40,21 @@ services:
       - "8090:80"
     networks:
       - sampleapp-network
+  rabbit:
+    container_name: rabbit
+    image: rabbit
+    build:
+      context: ./.docker/rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - sampleapp-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 10s
+      timeout: 20s
+      retries: 5
   hoverfly:
     container_name: hoverfly
     build:
