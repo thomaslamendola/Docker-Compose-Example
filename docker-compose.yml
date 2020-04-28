@@ -17,7 +17,7 @@ services:
       - sampleapp-network
   mvc:
     container_name: mvc
-    image: ${DOCKER_ACCT}/sample-app-mvc
+    image: sample-app-mvc
     build:
       context: ./SampleApp.MVC/
     depends_on:
@@ -31,13 +31,11 @@ services:
       - sampleapp-network
   api:
     container_name: api
-    image: ${DOCKER_ACCT}/sample-app-api
+    image: sample-app-api
     build:
       context: ./SampleApp.API/
     ports:
       - "8090:80"
-    env_file:
-      - ./.docker/env/api.${APP_ENV}.env
     networks:
       - sampleapp-network
   hoverfly:

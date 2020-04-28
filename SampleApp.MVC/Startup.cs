@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using SampleApp.MVC.Messaging;
+using SampleApp.MVC.Messaging.Consumers;
 using SampleApp.MVC.Models;
 using SampleApp.MVC.Repositories;
 using SampleApp.MVC.Services;
@@ -27,6 +29,29 @@ namespace SampleApp.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+
+            var section = Configuration.GetSection("BaseSettings");
+            services.Configure<BaseSettings>(section);
+
+            var envSettings = new EnvironmentSettings
+            {
+                Rabbit =
+                {
+                    UserName = "guest",
+                    Password = "guest",
+                    VirtualHost = "/",
+                    HostName = "localhost"
+                }
+            };
+
+            services.AddSingleton(envSettings);
+
+            services.AddHostedService<Worker>();
+
+            services.AddSingleton<IConnectionManager, RabbitMqConnectionManager>();
+            services.AddSingleton<IMessageHandler, SampleMessageHandler>();
+
             services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDbSettings"));
             services.AddSingleton<IMongoDbSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
