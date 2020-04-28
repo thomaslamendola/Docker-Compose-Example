@@ -83,7 +83,7 @@ namespace SampleApp.MVC.Repositories
         }
 
 
-        public virtual async Task InsertManyAsync(ICollection<TDocument> documents)
+        public virtual Task InsertManyAsync(ICollection<TDocument> documents)
         {
             throw new NotImplementedException();
         }
@@ -93,7 +93,7 @@ namespace SampleApp.MVC.Repositories
             throw new NotImplementedException();
         }
 
-        public virtual async Task ReplaceOneAsync(TDocument document)
+        public virtual Task ReplaceOneAsync(TDocument document)
         {
             throw new NotImplementedException();
         }

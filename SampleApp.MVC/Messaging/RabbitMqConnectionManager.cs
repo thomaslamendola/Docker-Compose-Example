@@ -1,14 +1,10 @@
-﻿using DnsClient.Internal;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.Web.CodeGeneration.Utils.Messaging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using SampleApp.MVC.Messaging.Consumers;
 using SampleApp.MVC.Messaging.Publishers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SampleApp.MVC.Messaging
 {

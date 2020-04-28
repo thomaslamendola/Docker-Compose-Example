@@ -28,9 +28,7 @@ namespace SampleApp.MVC.Messaging
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("");
-
-            while (!stoppingToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Heartbeat @ {time}", DateTimeOffset.Now);
                 await Task.Delay(30000, cancellationToken);

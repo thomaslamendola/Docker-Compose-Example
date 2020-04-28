@@ -23,9 +23,9 @@ namespace SampleApp.MVC.Messaging
                 _channel.ExchangeBind($"{servicePrefix}-inbound", $"{lobbyPrefix}-inbound", bindingKey);
             }
 
-            _channel.ExchangeBind($"{servicePrefix}-outbound", $"{lobbyPrefix}-outbound", "#");
+            _channel.ExchangeBind($"{lobbyPrefix}-outbound", $"{lobbyPrefix}-outbound", "#");
 
-            _channel.QueueDeclare($"{lobbyPrefix}-inbound-queue", false, false, false, null);
+            _channel.QueueDeclare($"{servicePrefix}-inbound-queue", false, false, false, null);
             _channel.QueueBind($"{servicePrefix}-inbound-queue", $"{servicePrefix}-inbound", "#", null);
 
             return _channel;
