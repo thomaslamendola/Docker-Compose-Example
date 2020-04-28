@@ -44,9 +44,8 @@ services:
     container_name: hoverfly
     build:
       context: ./.docker/hoverfly
-    # command: -capture # this needs to be commented out when running in simulation...
     volumes:
-      - /c/users/thoma/source/repos/SampleApp/.docker/hoverfly/simulations:/data
+      - /c/users/thoma/source/repos/SampleApp/.docker/hoverfly/simulations:/data # bind mount absolute path on local machine
     ports:
       - "8888:8888"
       - "8500:8500"
