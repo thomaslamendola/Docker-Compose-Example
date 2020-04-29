@@ -45,6 +45,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rabbit", "rabbit", "{B4DFBE
 		.docker\rabbit\rabbitmq.config = .docker\rabbit\rabbitmq.config
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{8041AB74-5317-40CD-BAA0-38FD2612623A}"
+	ProjectSection(SolutionItems) = preProject
+		.docker\hoverfly\bin\hoverctl = .docker\hoverfly\bin\hoverctl
+		.docker\hoverfly\bin\hoverfly = .docker\hoverfly\bin\hoverfly
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +76,7 @@ Global
 		{C2370C11-7D8D-402C-8DBC-878A6EE98614} = {0234625D-11ED-4185-A864-E0488D33E579}
 		{2177EE45-90A5-4D60-85A1-B6464BEE68F8} = {C2370C11-7D8D-402C-8DBC-878A6EE98614}
 		{B4DFBE57-D1A9-4790-B1AB-E084FD9B962A} = {C2370C11-7D8D-402C-8DBC-878A6EE98614}
+		{8041AB74-5317-40CD-BAA0-38FD2612623A} = {2177EE45-90A5-4D60-85A1-B6464BEE68F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3609ADBF-3B4F-4650-BD32-93B996A64017}

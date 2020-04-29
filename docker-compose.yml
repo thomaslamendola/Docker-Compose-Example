@@ -50,11 +50,6 @@ services:
       - "15672:15672"
     networks:
       - sampleapp-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:15672"]
-      interval: 10s
-      timeout: 20s
-      retries: 5
   hoverfly:
     container_name: hoverfly
     build:

@@ -66,6 +66,8 @@ namespace SampleApp.MVC
             {
                 client.BaseAddress = new Uri(Configuration["BaseUrl"]);
             });
+
+            services.AddDBContext<TestContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

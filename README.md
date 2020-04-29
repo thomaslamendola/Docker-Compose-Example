@@ -7,7 +7,6 @@ Before running any `docker-compose` commands, run the following commands:
 
 ```shell
 export APP_ENV=development
-export DOCKER_ACCT=thomaslamendola
 ```
 
 You can obviously replace my docker account name with yours 😉
@@ -18,5 +17,4 @@ You can obviously replace my docker account name with yours 😉
 
 ```powershell
 $env:APP_ENV = "development"
-$env:DOCKER_ACCT = "thomaslamendola"
 ```
