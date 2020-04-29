@@ -42,7 +42,7 @@ services:
       - sampleapp-network
   rabbit:
     container_name: rabbit
-    image: rabbit
+    image: sample-app-rabbit
     build:
       context: ./.docker/rabbit
     ports:
@@ -59,6 +59,17 @@ services:
     ports:
       - "8888:8888"
       - "8500:8500"
+    networks:
+      - sampleapp-network
+  sql:
+    container_name: sql
+    image: sample-app-sql
+    build:
+      context: ./.docker/sql
+    ports:
+      - "1433:1433"
+    env_file:
+      - ./.docker/env/sql.${APP_ENV}.env
     networks:
       - sampleapp-network
   # mock-api:
